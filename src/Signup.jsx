@@ -5,18 +5,21 @@ import { Link, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { userContexts } from "./App";
 import { useState } from "react";
+import Loading from "./Loading";
+import AnimatedMessageBar from "./BookedSlotConfirm";
+
 
 const Signup = () => {
 
 
-
+    const [loading, setLoading] = useState(false)
+    const [massage, setMassage] = useState("")
     const { setUser } = useContext(userContexts)
     const [goHome, setGoHome] = useState(false)
 
     async function SignupApi(value) {
 
-
-        console.log(value)
+        setLoading(true)
 
         const requiredF = {
             email: value.email,
@@ -39,13 +42,23 @@ const Signup = () => {
         }).then((res) => {
             let data = res.json()
 
-            data.then((obj) => {
+            data.then((user) => {
 
-                console.log(obj)
-                const UserS = JSON.stringify(obj);
-                localStorage.setItem('login-User', UserS);
-                setUser(obj.User)
-                setGoHome(true)
+                console.log(user)
+
+                if (user.success === true) {
+                    const UserS = JSON.stringify(user);
+                    localStorage.setItem('login-User', UserS);
+                    setUser(user.User)
+                    setLoading(false)
+                    setGoHome(true)
+                    return
+                }
+
+                if (user.success === false || user.message === "Bad request") {
+                    setLoading(false)
+                    setMassage("signupFailed")
+                }
 
             })
         })
@@ -106,7 +119,7 @@ const Signup = () => {
 
         validationSchema,
 
-        onSubmit: (values, { resetForm }) => {
+        onSubmit: (values,) => {
             SignupApi(values);
 
         },
@@ -125,9 +138,10 @@ const Signup = () => {
         return <Navigate to="/" />
     }
 
-
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4 py-8">
+            {loading && <Loading />}
+            {massage && <AnimatedMessageBar condition={massage} setSlotBooked={setMassage} />}
             <div className="w-full max-w-xl bg-white rounded-2xl shadow-xl p-6 sm:p-8">
 
                 {/* Header */}

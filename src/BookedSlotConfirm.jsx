@@ -52,6 +52,31 @@ const AnimatedMessageBar = ({ condition, setSlotBooked }) => {
                         </div>
                     </div> : ""}
 
+                {condition === "loginFailed" ?
+                    <div className="flex items-center gap-3">
+                        <span className="text-xl">❌</span>
+
+                        <div>
+                            <p className="font-semibold">Login Failed!</p>
+                            <p className="text-sm">
+                                Authentication failed. Email or password is incorrect.
+                            </p>
+                        </div>
+                    </div> : ""}
+
+                {condition === "signupFailed" ?
+                    <div className="flex items-center gap-3">
+                        <span className="text-xl">❌</span>
+
+                        <div>
+                            <p className="font-semibold">Signup Failed!</p>
+                            <p className="text-sm">
+                                signup failed. sever is not response or Bad request
+                            </p>
+                        </div>
+                    </div> : ""}
+
+
 
 
 

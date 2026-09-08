@@ -5,7 +5,7 @@ import { IoIosArrowRoundBack } from "react-icons/io";
 import { userContexts } from "./App";
 import AnimatedSidebar from "./Sidebar";
 
-export default function NavbarMentorStudent({ User }) {
+export default function NavbarMentorStudent() {
 
     return (
         <>

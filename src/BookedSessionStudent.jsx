@@ -1,14 +1,21 @@
 import { useEffect, useState, } from "react";
 import "./App.css";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate, Navigate } from 'react-router-dom';
+import Loading from "./Loading";
 //const bookedSlots = []
 
 
 const StudentBookedSlots = ({ User }) => {
 
 
-    const { _id } = User || {}
+    const [loading, setLoading] = useState(true)
+
+    const { role, _id } = User || {}
+
+
+    if (!role) {
+        return <Navigate to="/" />
+    }
 
 
     const navigate = useNavigate()
@@ -30,7 +37,7 @@ const StudentBookedSlots = ({ User }) => {
                 console.log(timeSlots)
                 setBookSLots(timeSlots)
 
-
+                setLoading(false)
             })
         }, [])
 
@@ -38,6 +45,8 @@ const StudentBookedSlots = ({ User }) => {
     }, [])
 
     async function handleCancelBookedSlot(ActivitySlotsId) {
+
+        setLoading(true)
 
         await fetch(`https://bookslotsapi.onrender.com/api/slots/booksSlots/${_id}/${ActivitySlotsId}`, {
             method: 'delete',
@@ -47,7 +56,7 @@ const StudentBookedSlots = ({ User }) => {
         }).then((res) => {
             let data = res.json()
             data.then((status) => {
-
+                setLoading(false)
                 handleReloadPage(status)
 
             })
@@ -58,6 +67,7 @@ const StudentBookedSlots = ({ User }) => {
 
     return (
         <div className="min-h-screen bg-gray-100 px-4 py-8">
+            {loading && <Loading />}
             <div className="mx-auto max-w-5xl">
 
                 {/* Header */}

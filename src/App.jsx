@@ -45,14 +45,12 @@ function App() {
 
         <div className=' h-full mt-16'>
           <Routes >
-            <Route index element={<Home User={User} />} />
-            <Route path="/Home" element={<StudentMentorHome User={User} />} />
+            <Route path="/" element={<Home User={User} />} />
+            {/* <Route path="/Home" element={<StudentMentorHome User={User} />} /> */}
             <Route path="About-as" element={<AboutMe />} />
             <Route path="login" element={<Login />}></Route>
             <Route path="signup" element={<Signup />}></Route>
             <Route path="forgotPassword" element={<ForgotPass />}></Route>
-
-
 
             {/* <Route path="DashBoard" element={<MentorDashBoard />} /> */}
             <Route path="Mentor/createTimeSlots" element={<CreateTimeSlots User={User} />} />

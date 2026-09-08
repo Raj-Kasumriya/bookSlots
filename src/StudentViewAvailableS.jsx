@@ -3,18 +3,21 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import * as Yup from "yup";
 import AnimatedMessageBar from "./BookedSlotConfirm";
-
+import Loading from "./Loading";
+import { Navigate } from "react-router-dom";
 
 
 const TimeSlotSelection = ({ User }) => {
 
+
+
     const { role, name, lastName, _id } = User || {}
 
     if (!role) {
-        return <Navigate to="/" />
+        return <Navigate to="../" />
     }
 
-
+    const [loading, setLoading] = useState(true)
     const [timeSlots, setTimeSlots] = useState([])
     const [slotBooked, setSlotBooked] = useState("")
 
@@ -23,6 +26,8 @@ const TimeSlotSelection = ({ User }) => {
     async function confirmSlot({ timeSlot }) {
 
         //  console.log(timeSlot)
+
+        setLoading(true)
 
         const bookSlotId = timeSlot._id
 
@@ -47,17 +52,21 @@ const TimeSlotSelection = ({ User }) => {
             let data = res.json()
             data.then((status) => {
 
-                if (status.massage === "slot all ready booked") {
 
+
+                if (status.massage === "slot all ready booked") {
+                    setLoading(false)
                     setSlotBooked("allReadyBooked")
+
                 }
 
                 if (status.massage === "you booked slot all ready for this session") {
-
+                    setLoading(false)
                     setSlotBooked("youBookedSession")
+
                 }
                 if (status.massage === "slots book successfully add") {
-
+                    setLoading(false)
                     setSlotBooked("success")
                 }
             })
@@ -67,7 +76,6 @@ const TimeSlotSelection = ({ User }) => {
 
     }
 
-
     useEffect(() => {
 
         fetch(`https://bookslotsapi.onrender.com/api/slots/${_id}`).then((res) => {
@@ -75,6 +83,7 @@ const TimeSlotSelection = ({ User }) => {
             data.then((timeSlots) => {
                 console.log(timeSlots)
                 setTimeSlots(timeSlots.slots)
+                setLoading(false)
             })
         })
 
@@ -109,7 +118,6 @@ const TimeSlotSelection = ({ User }) => {
             <div className="min-h-screen bg-gray-100 px-4 py-10">
 
 
-
                 <div className="mb-8 text-center">
                     <h1 className="text-3xl font-bold text-gray-800">
                         Select Your Time Slot
@@ -119,7 +127,7 @@ const TimeSlotSelection = ({ User }) => {
                         Choose a convenient date and time for your mentor session.
                     </p>
                 </div>
-
+                {loading && <Loading />}
 
                 {/* Header */}
 

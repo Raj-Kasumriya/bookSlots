@@ -1,36 +1,39 @@
 import "./App.css"
 import { useEffect, useState } from "react";
+import Loading from "./Loading";
+import { Navigate } from "react-router-dom";
 
 const StudentSubTimeSlots = ({ User }) => {
 
+    const [loading, setLoading] = useState(true)
 
-    const { _id } = User || {}
+    const { role, _id } = User || {}
+
+    if (!role) {
+        return <Navigate to="/" />
+    }
 
     const [submittedTimeSlots, setSubmittedTimeSlots] = useState([])
 
     useEffect(() => {
 
-        fetch(`https://bookslotsapi.onrender.com/api/slots/mentor/${_id}`).then((res) => {
+        fetch(`https://bookslotsapi.onrender.com/api/slots/booksSlots/mentor/${_id}`).then((res) => {
             let data = res.json()
             data.then((timeSlots) => {
-                console.log(timeSlots)
                 setSubmittedTimeSlots(timeSlots)
-
-
+                setLoading(false)
             })
-        }, [])
-
+        })
 
     }, [])
 
 
-
-
-
     return (
         <div className="min-h-screen bg-gray-100 px-4 py-8">
-            <div className="mx-auto max-w-5xl">
 
+            {loading && <Loading />}
+
+            <div className="mx-auto max-w-5xl">
                 {/* Header */}
                 <div className="mb-6">
                     <h1 className="text-3xl font-bold text-gray-800">

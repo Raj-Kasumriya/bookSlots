@@ -2,8 +2,8 @@ import React from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-
-
+import Loading from "./Loading";
+import { useState } from "react";
 
 const convertTo12Hour = (time) => {
     if (!time) return "";
@@ -85,6 +85,8 @@ const convertTo24Hour = (time) => {
 function EditTimeSlots({ initialValues, setEdit }) {
 
 
+    const [loading, setLoading] = useState(false)
+
     const navigate = useNavigate()
 
     function handleReloadPage() {
@@ -93,8 +95,7 @@ function EditTimeSlots({ initialValues, setEdit }) {
 
     async function editApi(value) {
 
-        console.log(value)
-
+        setLoading(true)
         const jsonF = JSON.stringify(value)
 
         await fetch(`https://bookslotsapi.onrender.com/api/slots/${initialValues._id}`, {
@@ -107,8 +108,8 @@ function EditTimeSlots({ initialValues, setEdit }) {
             let data = res.json()
             data.then((status) => {
 
-                console.log(status)
                 handleReloadPage()
+                setLoading(false)
             })
         })
 
@@ -196,7 +197,7 @@ function EditTimeSlots({ initialValues, setEdit }) {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-8">
-
+            {loading && <Loading />}
             <div className="mx-auto max-w-4xl rounded-xl bg-white p-6 shadow-lg">
 
                 <h1 className="mb-6 text-2xl font-bold text-gray-800">

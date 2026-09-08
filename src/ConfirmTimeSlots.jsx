@@ -5,6 +5,7 @@ import EditTimeSlots from "./EditSlots";
 const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
 
 
+const [loading, setLoading] = useState(false)
 
     const [sessionData, setConfirmed] = useState(SessionData);
 
@@ -12,7 +13,7 @@ const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
 
     const handleConfirm = async () => {
 
-        console.log(sessionData)
+   setLoading(true)
 
         const jsonF = JSON.stringify(sessionData)
 
@@ -30,7 +31,9 @@ const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
                 console.log(status)
 
                 if (status === "slots Successfully add") {
+                    setLoading(false)
                     setSuccessIcon(true)
+
                 }
 
             })
@@ -55,6 +58,8 @@ const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-8" >
+            
+            {loading && <Loading />}
             <div className="max-w-4xl mx-auto">
 
                 {/* Header */}

@@ -1,12 +1,19 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, Navigate } from "react-router-dom";
 import "./App.css"
 import { useState, useEffect } from "react";
 import EditTimeSlots from "./EditSlots";
+import Loading from "./Loading";
 
 const MentorSessions = ({ User }) => {
 
-    const { _id } = User || {}
 
+
+
+    const { role, _id } = User || {}
+
+    if (!role) {
+        return <Navigate to="/" />
+    }
 
     const navigate = useNavigate()
 
@@ -14,6 +21,7 @@ const MentorSessions = ({ User }) => {
         navigate(0)
     }
 
+    const [loading, setLoading] = useState(true)
     const [sessions, setSessions] = useState([]);
     const [edit, setEdit] = useState({ edit: false, index: undefined })
 
@@ -25,6 +33,7 @@ const MentorSessions = ({ User }) => {
 
                 //console.log(session)
                 setSessions(session.slots)
+                setLoading(false)
             })
         })
 
@@ -33,6 +42,7 @@ const MentorSessions = ({ User }) => {
 
     const handleDelete = async (id) => {
 
+        setLoading(true)
 
         await fetch(`https://bookslotsapi.onrender.com/api/slots/${_id}/${id}`, {
             method: 'delete',
@@ -44,6 +54,7 @@ const MentorSessions = ({ User }) => {
             data.then((status) => {
 
                 handleReloadPage()
+                setLoading(false)
             })
         })
 
@@ -59,6 +70,7 @@ const MentorSessions = ({ User }) => {
 
     return (
         <div className="min-h-screen bg-gray-100 px-4 py-8">
+            {loading && <Loading />}
             <div className="mx-auto max-w-6xl">
 
                 {/* Header */}

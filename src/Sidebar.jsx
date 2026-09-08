@@ -1,11 +1,27 @@
-import React, { useEffect, useRef, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useEffect, useRef, useState, useContext, } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { userContexts } from "./App";
 import { RxCross2 } from "react-icons/rx";
 
 const AnimatedSidebar = () => {
 
-    const { UserC, setUser } = useContext(userContexts)
+
+    const [goHome, setGoHome] = useState(false)
+
+    const navigate = useNavigate()
+
+    function handleReloadPage() {
+        navigate(0)
+    }
+
+
+    if (goHome) {
+
+        handleReloadPage()
+
+    }
+
+    const { UserC, setUser } = useContext(userContexts) || {}
 
     const { role, name, lastName } = UserC || {}
 
@@ -31,10 +47,16 @@ const AnimatedSidebar = () => {
         };
     }, [isOpen]);
 
+
+
+
+
     function handleLogoutUser() {
         localStorage.removeItem('login-User')
-        setUser({})
+        setGoHome(true)
     }
+
+
 
     return (
         <div >

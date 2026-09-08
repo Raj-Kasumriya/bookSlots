@@ -3,10 +3,17 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import ConfirmTimeSlots from "./ConfirmTimeSlots";
+import { Navigate } from "react-router-dom";
+
 
 const CreateTimeSlots = ({ User }) => {
 
     const { role, name, lastName, _id } = User || {}
+
+    if (!role) {
+        return <Navigate to="/" />
+    }
+
 
     const [confirm, setConfirm] = useState([])
     const [edit, setEdit] = useState(false)

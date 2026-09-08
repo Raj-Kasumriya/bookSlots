@@ -5,17 +5,20 @@ import { Link, Navigate } from "react-router-dom";
 import { useContext } from "react";
 import { useState } from "react";
 import { userContexts } from "./App";
-
+import Loading from "./Loading";
+import AnimatedMessageBar from "./BookedSlotConfirm";
 
 const Login = () => {
 
     const { user, setUser } = useContext(userContexts)
 
     const [goHome, setGoHome] = useState(false)
+    const [loading, setLoading] = useState(false)
+    const [massage, setMassage] = useState("")
 
     async function LoginApi(value) {
 
-        console.log(value)
+        setLoading(true)
 
         const userObj = {
             email: value.email,
@@ -36,13 +39,22 @@ const Login = () => {
             let data = res.json()
             data.then((user) => {
 
+                console.log(user)
 
-                const UserS = JSON.stringify(user);
+                if (user.success === true) {
 
-                localStorage.setItem('login-User', UserS);
-                setUser(user.User)
+                    const UserS = JSON.stringify(user);
+                    localStorage.setItem('login-User', UserS);
+                    setUser(user.User)
+                    setLoading(false)
+                    setGoHome(true)
+                    return
+                }
 
-                setGoHome(true)
+                if (user.success === false) {
+                    setMassage("loginFailed")
+                    setLoading(false)
+                }
 
             })
         })
@@ -61,9 +73,6 @@ const Login = () => {
             .min(8, "Password must be at least 8 characters")
             .required("Password is required"),
 
-        role: Yup.string()
-            .oneOf(["mentor", "student"], "Please select a valid role")
-            .required("Please select your role"),
     });
 
     // Formik
@@ -71,7 +80,7 @@ const Login = () => {
         initialValues: {
             email: "",
             password: "",
-            role: "",
+
         },
 
         validationSchema,
@@ -99,6 +108,8 @@ const Login = () => {
     return (
         <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
 
+            {loading && <Loading />}
+            {massage && <AnimatedMessageBar condition={massage} setSlotBooked={setMassage} />}
             <div className="w-full max-w-md bg-white rounded-2xl shadow-xl p-6 sm:p-8">
 
                 {/* Header */}
@@ -170,36 +181,6 @@ const Login = () => {
                             </p>
                         )}
                     </div>
-
-                    {/* Role */}
-                    <div>
-                        <label
-                            htmlFor="role"
-                            className="block text-sm font-medium text-gray-700 mb-2"
-                        >
-                            Select Role
-                        </label>
-
-                        <select
-                            id="role"
-                            name="role"
-                            value={formik.values.role}
-                            onChange={formik.handleChange}
-                            onBlur={formik.handleBlur}
-                            className={inputClass("role")}
-                        >
-                            <option value="">Select your role</option>
-                            <option value="mentor">Mentor</option>
-                            <option value="student">Student</option>
-                        </select>
-
-                        {formik.touched.role && formik.errors.role && (
-                            <p className="text-red-500 text-sm mt-1">
-                                {formik.errors.role}
-                            </p>
-                        )}
-                    </div>
-
                     {/* Forgot Password */}
                     <div className="text-right">
                         <Link
