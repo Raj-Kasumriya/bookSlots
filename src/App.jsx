@@ -47,15 +47,15 @@ function App() {
             <Route index path="/" element={<Home User={User} />} />
             {/* <Route path="/Home" element={<StudentMentorHome User={User} />} /> */}
             <Route path="About-as" element={<AboutMe />} />
-            <Route path="login" element={<Login />}></Route>
-            <Route path="signup" element={<Signup />}></Route>
-            <Route path="forgotPassword" element={<ForgotPass />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+            <Route path="/forgotPassword" element={<ForgotPass />}></Route>
 
-            {/* <Route path="DashBoard" element={<MentorDashBoard />} /> */}
-            <Route path="Mentor/createTimeSlots" element={<CreateTimeSlots User={User} />} />
-            <Route path="Mentor/MentorSessions" element={<MentorSessions User={User} />} />
-            <Route path="Mentor/timeSlotsSubmittedStudent" element={<StudentSubTimeSlots User={User} />}></Route>
-            <Route path="Mentor/Students" element={<MentorStudents User={User} />}></Route>
+
+            <Route path="/Mentor/createTimeSlots" element={<CreateTimeSlots User={User} />} />
+            <Route path="/Mentor/MentorSessions" element={<MentorSessions User={User} />} />
+            <Route path="/Mentor/timeSlotsSubmittedStudent" element={<StudentSubTimeSlots User={User} />}></Route>
+            <Route path="/Mentor/Students" element={<MentorStudents User={User} />}></Route>
 
 
 
