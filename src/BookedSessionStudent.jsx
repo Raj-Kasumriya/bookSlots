@@ -56,6 +56,8 @@ const StudentBookedSlots = ({ User }) => {
         }).then((res) => {
             let data = res.json()
             data.then((status) => {
+
+                console
                 setLoading(false)
                 handleReloadPage(status)
 

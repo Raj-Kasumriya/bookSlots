@@ -129,6 +129,11 @@ const TimeSlotSelection = ({ User }) => {
                 </div>
                 {loading && <Loading />}
 
+
+
+
+
+
                 {/* Header */}
 
 
@@ -253,7 +258,22 @@ const TimeSlotSelection = ({ User }) => {
                             </div>
                         )
                     })
-                        : ""}
+                        : <div className="flex min-h-[\300px] items-center justify-center px-4">
+                            <div className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-8 text-center shadow-md">
+                                <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-100">
+                                    <span className="text-3xl">🕐</span>
+                                </div>
+
+                                <h2 className="mb-2 text-xl font-semibold text-gray-800">
+                                    No Time Slots Available
+                                </h2>
+
+                                <p className="text-sm text-gray-500">
+                                    There are currently no time slots available. Please check again
+                                    later
+                                </p>
+                            </div>
+                        </div>}
 
             </div>
         </>
@@ -261,3 +281,7 @@ const TimeSlotSelection = ({ User }) => {
 };
 
 export default TimeSlotSelection;
+
+
+
+

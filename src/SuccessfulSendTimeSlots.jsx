@@ -35,7 +35,7 @@ export default function SuccessfulSendTimeSlots() {
                     Successfuly send time slots
                 </h1>
 
-                <Link className=" text-white  text-center text-sm  bg-black py-2 px-4 mx-2 mt-4 rounded-4xl font-bold" to="/Home">Home</Link>
+                <Link className=" text-white  text-center text-sm  bg-black py-2 px-4 mx-2 mt-4 rounded-4xl font-bold" to="/">Home</Link>
                 <button onClick={handleReloadPage} className=" text-white  text-center text-sm  bg-black py-2 px-4 mx-2 mt-4 rounded-4xl font-bold">Create new</button>
             </div>
         </div>);

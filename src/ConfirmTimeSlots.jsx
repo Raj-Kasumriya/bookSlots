@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import SuccessfulSendTimeSlots from "./SuccessfulSendTimeSlots";
 import EditTimeSlots from "./EditSlots";
-
+import Loading from "./Loading";
 const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
 
 
-const [loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false)
 
     const [sessionData, setConfirmed] = useState(SessionData);
 
@@ -13,7 +13,7 @@ const [loading, setLoading] = useState(false)
 
     const handleConfirm = async () => {
 
-   setLoading(true)
+        setLoading(true)
 
         const jsonF = JSON.stringify(sessionData)
 
@@ -58,7 +58,7 @@ const [loading, setLoading] = useState(false)
 
     return (
         <div className="min-h-screen bg-gray-100 p-4 md:p-8" >
-            
+
             {loading && <Loading />}
             <div className="max-w-4xl mx-auto">
 
