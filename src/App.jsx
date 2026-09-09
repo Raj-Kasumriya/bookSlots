@@ -40,12 +40,11 @@ function App() {
 
       <userContexts.Provider value={userObj} >
 
-        <NavbarMentorStudent User={User} />
-
+        <NavbarMentorStudent />
 
         <div className=' h-full mt-16'>
           <Routes >
-            <Route path="/" element={<Home User={User} />} />
+            <Route index path="/" element={<Home User={User} />} />
             {/* <Route path="/Home" element={<StudentMentorHome User={User} />} /> */}
             <Route path="About-as" element={<AboutMe />} />
             <Route path="login" element={<Login />}></Route>
