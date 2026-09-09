@@ -44,7 +44,7 @@ const Signup = () => {
 
             data.then((user) => {
 
-                console.log(user)
+
 
                 if (user.success === true) {
                     const UserS = JSON.stringify(user);

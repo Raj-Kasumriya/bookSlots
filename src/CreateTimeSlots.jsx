@@ -49,8 +49,6 @@ const CreateTimeSlots = ({ User }) => {
             })),
         };
 
-
-        //console.log(finalData)
         setConfirm([finalData])
         setEdit(true)
     }

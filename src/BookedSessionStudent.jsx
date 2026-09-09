@@ -34,9 +34,7 @@ const StudentBookedSlots = ({ User }) => {
         fetch(`https://bookslotsapi.onrender.com/api/slots/booksSlots/student/${_id}`).then((res) => {
             let data = res.json()
             data.then((timeSlots) => {
-                console.log(timeSlots)
                 setBookSLots(timeSlots)
-
                 setLoading(false)
             })
         }, [])

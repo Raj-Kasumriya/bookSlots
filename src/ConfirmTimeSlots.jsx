@@ -28,8 +28,6 @@ const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
             let data = res.json()
             data.then((status) => {
 
-                console.log(status)
-
                 if (status === "slots Successfully add") {
                     setLoading(false)
                     setSuccessIcon(true)
@@ -156,16 +154,6 @@ const ConfirmTimeSlots = ({ SessionData, setEdit }) => {
                         ))}
                     </div>
 
-                    {/* Success Message */}
-                    {/* {confirmed && (
-                        <div className="mt-6 p-4 bg-green-50 border border-green-200 rounded-xl">
-                            <p className="text-green-700 font-medium text-center">
-                                ✓ Time slots confirmed successfully!
-                            </p>
-                        </div>
-                    )} */}
-
-                    {/* Buttons */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8">
 
                         <button

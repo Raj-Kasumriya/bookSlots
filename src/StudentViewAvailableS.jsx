@@ -81,7 +81,7 @@ const TimeSlotSelection = ({ User }) => {
         fetch(`https://bookslotsapi.onrender.com/api/slots/${_id}`).then((res) => {
             let data = res.json()
             data.then((timeSlots) => {
-                console.log(timeSlots)
+
                 setTimeSlots(timeSlots.slots)
                 setLoading(false)
             })
