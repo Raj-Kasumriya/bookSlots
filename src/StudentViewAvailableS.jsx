@@ -194,7 +194,9 @@ const TimeSlotSelection = ({ User }) => {
                                                                 ActivitySlotsId: slots._id,
                                                                 studentId: _id,
                                                                 studentName: name + " " + lastName,
-                                                                heading: slots.heading
+                                                                heading: slots.heading,
+                                                                studentBookingStatus: "waiting"
+
                                                             })
                                                         }
                                                         className={`rounded-xl border p-4 text-left font-medium transition-all
