@@ -25,7 +25,7 @@ const AnimatedMessageBar = ({ condition, setSlotBooked }) => {
                     <div>
                         <p className="font-semibold">Success!</p>
                         <p className="text-sm">
-                            Your time slot has been booked successfully.
+                            Your time slot  booking send successfully.
                         </p>
                     </div>
                 </div> : ""}

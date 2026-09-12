@@ -3,7 +3,7 @@ import "./App.css";
 import { useNavigate, Navigate } from 'react-router-dom';
 import Loading from "./Loading";
 //const bookedSlots = []
-
+import ConfirmDelete from "./ConfirmDelete";
 
 const StudentBookedSlots = ({ User }) => {
 
@@ -26,7 +26,7 @@ const StudentBookedSlots = ({ User }) => {
 
     const [bookedSlots, setBookSLots] = useState([])
 
-
+    const [confirmDeleteBookingS, setConfirmDeleteBookingS] = useState({ status: false, index: 0 })
 
 
     useEffect(() => {
@@ -81,14 +81,22 @@ const StudentBookedSlots = ({ User }) => {
                     </p>
                 </div>
 
+                {confirmDeleteBookingS.status ?
+                    <ConfirmDelete
+                        howUse={'Delete Booking'}
+                        setConfirmDelete={() => setConfirmDeleteBookingS({ status: false, index: 0 })}
+                        handleDeleteSlot={() => handleCancelBookedSlot(bookedSlots[confirmDeleteBookingS.index].ActivitySlotsId)} /> : ''}
+
                 {/* Booked Slots */}
 
                 <div className="grid gap-5">
-                    {bookedSlots.map((slot) => (
+                    {bookedSlots.map((slot, index) => (
                         <div
                             key={slot._id}
                             className="rounded-xl bg-white p-5 shadow-md"
                         >
+
+
                             <div className="flex flex-col justify-between gap-4 md:flex-row md:items-center">
 
                                 {/* Mentor */}
@@ -118,21 +126,28 @@ const StudentBookedSlots = ({ User }) => {
                                 {/* Status */}
                                 <div>
                                     <span
-                                        className="rounded-full px-4 py-2 text-sm font-medium bg-green-100 text-green-700"
+                                        className={`rounded-full px-4 py-2 text-sm font-medium bg-green-100 text-green-700 ${slot.studentBookingStatus === "cancel" ? "text-red-700 bg-red-100" : "cancel"}`}
                                     >
                                         {slot.studentBookingStatus}
                                     </span>
                                 </div>
 
                                 {/* Cancel Button */}
-                                <button
+                                {slot.studentBookingStatus === "cancel" ? <button
                                     className="rounded-lg border border-red-500 px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50"
                                     onClick={() => handleCancelBookedSlot(slot.ActivitySlotsId)}
                                 >
+                                    ok
+                                </button> : <button
+                                    className="rounded-lg border border-red-500 px-4 py-2 text-sm font-medium text-red-500 hover:bg-red-50"
+                                    onClick={() => setConfirmDeleteBookingS({ status: true, index: index })}
+                                >
                                     cancel
-                                </button>
+                                </button>}
 
                             </div>
+
+
                         </div>
                     ))}
                 </div>

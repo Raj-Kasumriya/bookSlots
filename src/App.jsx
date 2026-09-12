@@ -9,7 +9,6 @@ import Signup from './Signup'
 import StudentViewAvailableS from './StudentViewAvailableS'
 import NavbarMentorStudent from "./NavbarMentorStudent"
 import { createContext, useState } from 'react'
-import StudentMentorHome from './StudentMentorHome'
 import StudentBookedSlots from './BookedSessionStudent'
 import StudentSubTimeSlots from './StudentSubTimeSlots'
 import MentorStudents from './AllMentorStudents'

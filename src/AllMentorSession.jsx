@@ -3,6 +3,7 @@ import "./App.css"
 import { useState, useEffect } from "react";
 import EditTimeSlots from "./EditSlots";
 import Loading from "./Loading";
+import ConfirmDelete from "./ConfirmDelete";
 
 const MentorSessions = ({ User }) => {
 
@@ -24,6 +25,7 @@ const MentorSessions = ({ User }) => {
     const [loading, setLoading] = useState(true)
     const [sessions, setSessions] = useState([]);
     const [edit, setEdit] = useState({ edit: false, index: undefined })
+    const [confirmDeleteSlot, setConfirmDeleteSlot] = useState({ status: false, slotId: undefined })
 
     useEffect(() => {
 
@@ -104,6 +106,12 @@ const MentorSessions = ({ User }) => {
                     </p>
                 </div>
 
+                {confirmDeleteSlot.status ?
+                    <ConfirmDelete
+                        howUse={'Delete slot'}
+                        setConfirmDelete={() => setConfirmDeleteSlot({ status: false, slotId: undefined })}
+                        handleDeleteSlot={() => handleDelete(confirmDeleteSlot.slotId)} /> : ''}
+
                 {/* Sessions */}
                 {sessions.length > 0 ? (
                     <div className="grid gap-5 md:grid-cols-2">
@@ -170,7 +178,7 @@ const MentorSessions = ({ User }) => {
                                     </button>
 
                                     <button
-                                        onClick={() => handleDelete(session._id)}
+                                        onClick={() => setConfirmDeleteSlot({ status: true, slotId: session._id })}
                                         className="flex-1 rounded-lg bg-red-600 px-4 py-2.5 font-medium text-white hover:bg-red-700"
                                     >
                                         Delete

@@ -1,7 +1,8 @@
 import "./App.css"
 import { useEffect, useState } from "react";
 import Loading from "./Loading";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
+
 
 const StudentSubTimeSlots = ({ User }) => {
 
@@ -11,6 +12,12 @@ const StudentSubTimeSlots = ({ User }) => {
 
     if (!role) {
         return <Navigate to="/" />
+    }
+
+    const navigate = useNavigate()
+
+    function handleReloadPage() {
+        navigate(0)
     }
 
     const [submittedTimeSlots, setSubmittedTimeSlots] = useState([])
@@ -28,13 +35,15 @@ const StudentSubTimeSlots = ({ User }) => {
 
     }, [])
 
-    async function handleConfirmTimeSlot(id) {
+    async function handleConfirmTimeSlotAndCancel(id, status) {
 
-        const updateStatus = { studentBookingStatus: "confirm" }
+        setLoading(true)
+
+        const updateStatus = { studentBookingStatus: status }
 
         const jsonF = JSON.stringify(updateStatus)
 
-        await fetch(`http://localhost:8000/api/slots/booksSlots/mentor/${id}`, {
+        await fetch(`https://bookslotsapi.onrender.com/api/slots/booksSlots/mentor/${id}`, {
             method: 'put',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,37 +54,20 @@ const StudentSubTimeSlots = ({ User }) => {
             data.then((status) => {
 
                 console.log(status)
-
+                setLoading(false)
+                handleReloadPage()
                 // setLoading(false)
             })
         })
 
     }
 
-    async function handleCancelTimeSlot(studentId, ActivitySlotsId) {
 
-        console.log(studentId, ActivitySlotsId)
 
-        setLoading(true)
 
-        await fetch(`https://bookslotsapi.onrender.com/api/slots/booksSlots/${studentId}/${ActivitySlotsId}`, {
-            method: 'delete',
-            headers: {
-                'Content-Type': 'application/json',
-            },
 
-        }).then((res) => {
-            let data = res.json()
-            data.then((status) => {
-                setLoading(false)
-                console.log(status)
 
-            })
-        })
 
-        console.log("cancel")
-
-    }
 
     return (
         <div className="min-h-screen bg-gray-100 px-4 py-8">
@@ -96,6 +88,7 @@ const StudentSubTimeSlots = ({ User }) => {
 
                 {/* Time Slots */}
                 <div className="grid gap-4">
+
                     {submittedTimeSlots.map((slot) => (
                         <div
                             key={slot._id}
@@ -139,13 +132,21 @@ const StudentSubTimeSlots = ({ User }) => {
                                 </div>
 
                                 {/* Status */}
-                                <div className="flex justify-between ">
-                                    <span className="w-fit rounded-full px-4 py-2 text-sm font-medium bg-green-100 text-green-700" >
-                                        {slot.studentBookingStatus}
-                                    </span>
+                                <div className="flex justify-between  ">
+
+                                    <div className="flex flex-col">
+                                        <p className="text-xs text-gray-400">
+                                            Status
+                                        </p>
+
+                                        <span className={`text-blue-500 font-bold text-lg ${slot.studentBookingStatus === "confirm" && "text-green-500"}`} >
+                                            {slot.studentBookingStatus}
+                                        </span>
+
+                                    </div>
                                     <div>
-                                        <button onClick={() => handleCancelTimeSlot(slot._id)} className="bg-red-600  text-white px-4 py-2 mx-3  rounded-4xl">cancel</button>
-                                        {slot.studentBookingStatus === "waiting" ? < button onClick={() => handleConfirmTimeSlot(slot.studentId, slot.ActivitySlotsId)} className="bg-green-600  text-white px-4 py-2 mx-3  rounded-4xl">confirm</button> : ""}
+                                        <button onClick={() => handleConfirmTimeSlotAndCancel(slot._id, "cancel")} className="bg-red-600  text-white px-4 py-2 m-3  rounded-4xl">cancel</button>
+                                        {slot.studentBookingStatus === "waiting" ? < button onClick={() => handleConfirmTimeSlotAndCancel(slot._id, "confirm")} className="bg-green-600  text-white px-4 py-2 m-3  rounded-4xl">confirm</button> : ""}
                                     </div>
 
                                 </div>
